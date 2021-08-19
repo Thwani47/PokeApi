@@ -1,0 +1,79 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"version": "1.0.0",
+		"title": "PokeAPI",
+		"description": "Pokemon API",
+		"license": {
+			"name": "MIT",
+			"url": "https://opensource.org/licenses/MIT"
+		}
+	},
+	"host": "localhost:3001",
+	"basePath": "/",
+	"tags": [
+		{
+			"name": "Pokemon",
+			"description": "API for the Pokemon from the PokeApi"
+		}
+	],
+	"schemes": [ "http" ],
+	"consumes": [ "application/json" ],
+	"produces": [ "application/json" ],
+	"paths": {
+		"/pokemon": {
+			"get": {
+				"tags": [ "Pokemon" ],
+				"summary": "Get the first 100 Pokemon from the PokeApi",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"$ref": "#/definitions/Pokemons"
+						}
+					}
+				}
+			}
+		},
+		"/pokemon/{id}": {
+			"parameters": [
+				{
+					"name": "id",
+					"in": "path",
+					"required": true,
+					"description": "ID of the Pokemon we want to find",
+					"type": "integer"
+				}
+			],
+			"get": {
+				"tags": [ "Pokemon" ],
+				"summary": "Get the Pokemon related to specified ID ",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"$ref": "#/definitions/Pokemon"
+						}
+					}
+				}
+			}
+		}
+	},
+	"definitions": {
+		"Pokemon": {
+			"required": [ "name", "url" ],
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"url": {
+					"type": "string"
+				}
+			}
+		},
+		"Pokemons": {
+			"type": "array",
+			"$ref": "#/definitions/Pokemon"
+		}
+	}
+}
