@@ -3,7 +3,9 @@ const app = express();
 const swaggerUI = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 const axios = require('axios');
+const path = require('path');
 
+app.use(express.static(path.join(__dirname, 'client/build')));
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 const PORT = process.env.PORT || 3001;
@@ -15,7 +17,6 @@ app.get('/pokemon', async (req, res) => {
 		const pokemon = await axios.get(`${POKEAPI_URL}?limit=100`);
 
 		const pokemonList = pokemon.data.results;
-
 
 		res.status(200).json({ success: true, result: pokemonList });
 	} catch (err) {
@@ -32,6 +33,10 @@ app.get('/pokemon/:id', async (req, res) => {
 	} catch (err) {
 		res.json({ err });
 	}
+});
+
+app.get('*', (req, res) => {
+	res.sendFile(path.join(__dirname + '/client/build.index.html'));
 });
 
 app.listen(PORT, () => {
